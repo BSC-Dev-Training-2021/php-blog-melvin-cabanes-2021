@@ -22,11 +22,11 @@
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                        <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
-                        <li class="nav-item"><a class="nav-link active" href="about.html">About</a></li>
-                        <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
-                        <li class="nav-item"><a class="nav-link" href="post.html">Post</a></li>
-                        <li class="nav-item"><a class="nav-link" href="messages.html"><i class="fa fa-envelope-o"></i></a></li>
+                        <li class="nav-item"><a class="nav-link" href="index.php">Home</a></li>
+                        <li class="nav-item"><a class="nav-link" href="about.php">About</a></li>
+                        <li class="nav-item"><a class="nav-link" href="contact.php">Contact</a></li>
+                        <li class="nav-item"><a class="nav-link" href="post.php">Post</a></li>
+                        <li class="nav-item"><a class="nav-link active" href="messages.php"><i class="fa fa-envelope-o"></i></a></li>
                     </ul>
                 </div>
             </div>
@@ -35,14 +35,29 @@
         <div class="container mt-5">
             <div class="row">
                 <div class="col-lg-8">
-                    <!-- Post content-->
-                    <article>
-                        <!-- Post header-->
-                        <header class="mb-4">
-                            <!-- Post title-->
-                            <h1 class="fw-bolder mb-1">Coming Soon</h1>
-                        </header>
-                    </article>
+                    <!-- Post header-->
+                    <header class="mb-4">
+                        <!-- Post title-->
+                        <h1 class="fw-bolder mb-1">Messages</h1>
+                    </header>
+                    <!-- Submitted messages -->
+                    <section>
+                        <div class="card mb-2">
+                            <div class="card-body">
+                                <h5 class="card-title">Ramil Cunanan </h5>
+                                <div class="small text-muted">November 15, 2021</div>
+                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Ramil Cunanan</h5>
+                                <div class="small text-muted">November 15, 2021</div>
+                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+
+                            </div>
+                        </div>
+                    </section>
                 </div>
                 <!-- Side widgets-->
                 <div class="col-lg-4">
