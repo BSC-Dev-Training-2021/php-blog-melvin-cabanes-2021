@@ -1,6 +1,5 @@
 <?php 
-require_once 'models/model.php';
-
+require_once 'models/autoloader.php';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -40,36 +39,32 @@ require_once 'models/model.php';
             <div class="row">
                 <div class="col-lg-8">
                     <!-- Post content-->
+
+                    <?php 
+                    $blogpost = new blogpost();
+                    $id = $_GET['id'];
+                    $dateTime = $_POST['created_updated'] = date("F j, Y, g:i a"); 
+                    $blogpost_result = $blogpost->findById($id);
+                    ?>
                     <article>
                         <!-- Post header-->
                         <header class="mb-4">
                             <!-- Post title-->
-                            <?php
-                                $id = "";
-                                $dateTime="";
-                            
-                                require_once 'models/blogpost.php';
-                                $blogpost_obj = new blogpost();
-                                $id = $_GET['id'];
-                                $dateTime = $_POST['created_updated']?? "";
-                                $blogpost_data = $blogpost_obj->findBy($id);
-                              
-                            ?>
-    
-                            <h1 class="fw-bolder mb-1"><?php echo $blogpost_data['title']?></h1>
+                           
+                            <h1 class="fw-bolder mb-1"><?php echo $blogpost_result['title'];?></h1>
                             <!-- Post meta content-->
-                            <div class="text-muted fst-italic mb-2">Posted on <?php echo date("F j, Y, g:i a", strtotime($blogpost_data['created_updated']));?> by Start Bootstrap</div>
+                            <div class="text-muted fst-italic mb-2">Posted on <?php echo date("jS F, Y", strtotime($blogpost_result['created_updated']));?></div>
                             <!-- Post categories-->
                             <a class="badge bg-secondary text-decoration-none link-light" href="#!">Web Design</a>
                             <a class="badge bg-secondary text-decoration-none link-light" href="#!">Freebies</a>
                         </header>
                         <!-- Preview image figure-->
-                        <figure class="mb-4"><img class="img-fluid rounded" src="https://dummyimage.com/900x400/ced4da/6c757d.jpg" alt="..." /></figure>
+                        <figure class="mb-4"><img class="img-fluid rounded" src= <?php echo 'uploads/'.$blogpost_result['img_link'];?> alt="..." /></a></figure>
                         <!-- Post content-->
+                        
                         <section class="mb-5">
-                            <p class="fs-5 mb-4"><?php echo $blogpost_data['title']?></p>
-                            <p class="fs-5 mb-4"><?php echo $blogpost_data['description']?></p>
-                            <p class="fs-5 mb-4"><?php echo $blogpost_data['content']?></p>
+                            <p class="fs-5 mb-4"><?php echo $blogpost_result['description'];?></p>
+                            <p class="fs-5 mb-4"><?php echo $blogpost_result['content'];?></p>
                         </section>
                         
                     </article>
@@ -77,8 +72,10 @@ require_once 'models/model.php';
                     <section class="mb-5">
                         <div class="card bg-light">
                             <div class="card-body">
+
+
                                 <!-- Comment form-->
-                                <form class="mb-4">
+                                <form class="mb-4" action = "" method = "post">
                                     <div>
                                         <textarea class="form-control mb-2" rows="3" placeholder="Join the discussion and leave a comment!"></textarea>
                                     </div>

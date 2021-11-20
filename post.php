@@ -1,51 +1,4 @@
-<?php 
-require_once 'models/blogpost.php';
-require_once 'models/category_types.php';
-require_once 'models/blogpost_categories.php';
-
-
-$blogpost_obj = new blogpost();
-
-
-if (isset($_POST['submit'])) {
-    $title=$_POST['title'];
-    $description=$_POST['description'];
-    $content=$_POST['content'];
-    
-
-    $dataToInsert = array(
-        'title' => $title,
-        'description' => $description,
-        'content' => $content,
-        'created_by' => 1
-    ); 
-    //Insert a blogpost here
-    $blogpost_obj->insert($dataToInsert);
-
-    //insert checkbox value to blog_post_categories -category_id
-
-    
-    //insert the id from blog_post to blog_post_categories -blog_post_id
-        
-    //Inserting categories
-    $checkbox = $_POST['category_checkbox'];
-
-    $returnID = $blogpost_obj->id;
-    var_dump($returnID);
-    foreach($checkbox as $chbValue){
-
-        $blogpost_obj1 = new blogpost_categories();
-        $checkboxToInsert = array(
-            'blog_post_id' => $returnID,
-            'category_id' => $chbValue,
-        );
-    $blogpost_obj1->insert($checkboxToInsert);
-
-    }
-}  
-
-
-?>
+<?php require_once 'models/autoloader.php'; ?>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -93,16 +46,15 @@ if (isset($_POST['submit'])) {
                                 <div class="text-muted fst-italic mb-3">Express your mind!</div>
                             </header>
                             <!-- Post content-->
+                            <?php require_once 'controller/blogpost_ctrl.php';?>
                             <section class="mb-5">
-
-                            
                                 <form action="post.php" method= "POST" enctype="multipart/form-data">
-                               
                                     <div class="form-group">
+
                                         <label for="exampleFormControlFile1"></label>
                                         <input type="file" name = "image" accept="image/png, image/jpg, image/jpeg" class="form-control-file my-3" id="exampleFormControlFile1">
                                     </div>
-
+                                    
                                     <div class="form-group">
                                         <label for="exampleFormControlTextarea1" class="mb-1">Title</label>
                                         <input type="text" name = "title" class="form-control mb-1">
@@ -118,28 +70,20 @@ if (isset($_POST['submit'])) {
                                     <div class="form-group">
                                         <label class="mb-1 mt-3">Categories</label>
                                         <div class="row">
-                                            
-
-                                            <?php 
-                                            ////////////////////////////////////////////
-                                            $category_types_obj = new category_types();
-                                            $result = $category_types_obj->findAll();
-                                          
-                                            foreach($result as $checkboxValue){?>
+                                        <?php 
+                                            $category_types = new category_types();
+                                            $cat_result = $category_types->findAll();
+                                            foreach($cat_result as $cat_data){
+                                        ?>
                                             <div class="col-lg-6">
                                                 <div class="form-check">
-                                                    <input class="form-check-input" name = "category_checkbox[]" type="checkbox" value="<?php echo $checkboxValue['id']; ?>" id="defaultCheck1">
-                                                    <label class="form-check-label" for="defaultCheck1">
-                                                      <?php echo $checkboxValue['name'];?>
-                                                    </label>
+                                                    <input class="form-check-input" name = "category_checkbox[]" type="checkbox" value="<?php echo $cat_data['id']; ?>" id="defaultCheck1">
+                                                    <label class="form-check-label" for="defaultCheck1"><?php echo $cat_data['name'];?></label>
                                                 </div>
                                             </div>
-                                            <?php } ?>
-                                                
-                                            
+                                        <?php } ?>
                                         </div>
                                     </div>
-                                    
                                     <button type="submit" name = "submit" class="btn btn-primary mt-5">Post</button>
                                 </form>
                             </section>

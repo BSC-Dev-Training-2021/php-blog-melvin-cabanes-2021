@@ -1,6 +1,5 @@
-<?php 
-require_once 'models/model.php';
-
+<?php
+require_once 'models/autoloader.php';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -39,7 +38,7 @@ require_once 'models/model.php';
         <header class="py-5 bg-light border-bottom mb-4">
             <div class="container">
                 <div class="text-center my-5">
-                    <h1 class="fw-bolder">Welcome to Blog Home!</h1>
+                    <h1 class="fw-bolder">WELCOME TO BLOGPOST!</h1>
                     <p class="lead mb-0">A Bootstrap 5 starter layout for your next blog homepage</p>
                 </div>
             </div>
@@ -50,24 +49,22 @@ require_once 'models/model.php';
                 <!-- Blog entries-->
                 <div class="col-lg-8">
                     <!-- Featured blog post-->
-                    <?php
-                    require_once 'models/blogpost.php';
-                    $blogpost_obj = new blogpost();
-                    $blogpost_results = $blogpost_obj->findAll();
-                     
-                    foreach($blogpost_results as $blogpost){?>
-    
-                    
-                    <div class="card mb-4">
-                        <a href="#!"><img class="card-img-top" src="https://dummyimage.com/850x350/dee2e6/6c757d.jpg" alt="..." /></a>
+                   
+                    <?php 
+                        $blogpost = new blogpost();
+                        $blogpost_result = $blogpost->findAll();
                         
-                        <div class="card-body">
-                            <div class="small text-muted">January 1, 2021</div>
-                            <h2 class="card-title"><?php echo $blogpost['title']?></h2>
-                            <p class="card-text"><?php echo $blogpost['description']?></p>
-                            <a class="btn btn-primary" name = 'btn' href="article.php?id=<?php echo $blogpost['id'];?> ">Read more →</a>
+                    ?>
+                    <?php foreach($blogpost_result as $blogpost_data){?>
+                        <div class="card mb-4">
+                            <a href="#!"><img class="card-img-top" src= <?php echo 'uploads/'.$blogpost_data['img_link'];?> alt="..." /></a>
+                            <div class="card-body">
+                                <div class="small text-muted"><?php echo date("jS F, Y", strtotime($blogpost_data['created_updated']));?></div>
+                                <h2 class="card-title"><?php echo $blogpost_data['title']; ?></h2>
+                                <p class="card-text"><?php echo $blogpost_data['description']; ?></p>
+                                <a class="btn btn-primary" name = 'btn' href="article.php?id=<?php echo $blogpost_data['id'];?>">Read more →</a>
+                            </div>
                         </div>
-                    </div>
                     <?php } ?>
                     <!-- Nested row for non-featured blog posts-->
                     

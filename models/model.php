@@ -1,6 +1,5 @@
 <?php
-    class model{
-
+    class model {
         function __construct($tableName){
 
             $this->id = 0;
@@ -8,72 +7,47 @@
             $this->connect();
         }
 
+
         private function connect(){
-            
-            $this->con = new mysqli("localhost","root","","blog");
-           
-     
+            // connection of database
+            $servername = "localhost";
+            $username = "root";
+            $password = "";
+            $dbname = "blog";
+            $this->conn = new mysqli($servername, $username, $password , $dbname);
+
         }
 
         function findAll(){
-            /*
-                put your generic SELECT query here
-            */
+            
             $sql = "SELECT * FROM $this->tableName";
-            $rows = $this->con->query($sql);
-            $result = [];
-
-            if ($rows->num_rows > 0) {
-                // display data from the query
-                while($row = $rows->fetch_assoc()) {
-                $result[] = $row;
-                }
-              
-            } 
+            $result = $this->conn->query($sql);
             return $result;
+        }
 
-        }  
-
-        function findBy($id){
+        function findById($id){
             $sql = "SELECT * FROM $this->tableName WHERE id = $id";
-            $row = $this->con->query($sql);
-            $result = [];
+            $result = $this->conn->query($sql);
+            $row = $result->fetch_assoc();
+            return $row;
 
-            if ($row->num_rows > 0) {
-                // display data from the query
-                $row = $row->fetch_assoc();
-                $result = $row;
-                
-            } 
-
-
-            return $result;
-            
         }
-        function insert($data){
-            
-            foreach($data as $key => $value){
-                $dataColumnKeys[] =$key;
-                $dataColumnValues[] = $value;
+        function insert($blogpost_result){
+          
+            foreach($blogpost_result as $blogpost_key => $blogpost_value){
+                $dataColumnKeys[] = $blogpost_key;
+                $dataColumnValues[] = $blogpost_value;
             }
-            $sql=mysqli_query($this->con,"INSERT INTO ".$this->tableName." (".implode(",",$dataColumnKeys).") VALUES ('".implode("','",$dataColumnValues)."')");
-
-            if ($sql) {
-                $this->id = mysqli_insert_id($this->con);
-                
-           }
+            $mysql = "INSERT INTO $this->tableName (" . implode(',', $dataColumnKeys) . ") VALUES ('" . implode("','", $dataColumnValues) . "')";
+            $this->conn->query($mysql);
 
         }
-        function update($id, $fields){
+        function update(){
               /*
                 put your generic UPDATE query here
             */
         }
-
-
         function delete(){
 
         }
-
-}
-
+    }
