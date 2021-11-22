@@ -14,8 +14,8 @@ require_once 'models/autoloader.php';
         <!-- Favicon-->
         <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
         <!-- Core theme CSS (includes Bootstrap)-->
-        <link href="css/font-awesome.min.css" rel="stylesheet" />
-        <link href="css/styles.css" rel="stylesheet" />
+        <link href="assets/css/font-awesome.min.css" rel="stylesheet" />
+        <link href="assets/css/styles.css" rel="stylesheet" />
     </head>
     <body>
         <!-- Responsive navbar-->
@@ -28,7 +28,7 @@ require_once 'models/autoloader.php';
                         <li class="nav-item"><a class="nav-link active" href="index.php">Home</a></li>
                         <li class="nav-item"><a class="nav-link" href="about.php">About</a></li>
                         <li class="nav-item"><a class="nav-link" href="contact.php">Contact</a></li>
-                        <li class="nav-item"><a class="nav-link" href="post.php">Post</a></li>
+                        <li class="nav-item"><a class="nav-link" href="post.php?">Post</a></li>
                         <li class="nav-item"><a class="nav-link" href="messages.php"><i class="fa fa-envelope-o"></i></a></li>
                     </ul>
                 </div>
@@ -42,7 +42,7 @@ require_once 'models/autoloader.php';
 
                     <?php 
                     $blogpost = new blogpost();
-                    $id = $_GET['id'];
+                    $id = $_GET['id']??"";
                     $dateTime = $_POST['created_updated'] = date("F j, Y, g:i a"); 
                     $blogpost_result = $blogpost->findById($id);
                     ?>
@@ -55,8 +55,11 @@ require_once 'models/autoloader.php';
                             <!-- Post meta content-->
                             <div class="text-muted fst-italic mb-2">Posted on <?php echo date("jS F, Y", strtotime($blogpost_result['created_updated']));?></div>
                             <!-- Post categories-->
-                            <a class="badge bg-secondary text-decoration-none link-light" href="#!">Web Design</a>
+
+                            
                             <a class="badge bg-secondary text-decoration-none link-light" href="#!">Freebies</a>
+                            
+
                         </header>
                         <!-- Preview image figure-->
                         <figure class="mb-4"><img class="img-fluid rounded" src= <?php echo 'uploads/'.$blogpost_result['img_link'];?> alt="..." /></a></figure>
@@ -75,12 +78,17 @@ require_once 'models/autoloader.php';
 
 
                                 <!-- Comment form-->
-                                <form class="mb-4" action = "" method = "post">
+
+                                <?php $blog_post_comment = new blog_post_comment();
+                                    include_once 'controller/blogpost_ctrl.php';
+                                
+                                ?>
+                                <form class="mb-4" action = "" method = "POST">
                                     <div>
-                                        <textarea class="form-control mb-2" rows="3" placeholder="Join the discussion and leave a comment!"></textarea>
+                                        <textarea class="form-control mb-2" name = "comments" rows="3" placeholder="Join the discussion and leave a comment!"></textarea>
                                     </div>
                                     <div>
-                                        <button type="submit" class="btn btn-primary">Post Comment</button>
+                                        <button type="submit" name = "postSubmit" class="btn btn-primary">Post Comment</button>
                                     </div>
                                 </form>
                                 <!-- Comment with nested comments-->
@@ -89,7 +97,15 @@ require_once 'models/autoloader.php';
                                     <div class="flex-shrink-0"><img class="rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." /></div>
                                     <div class="ms-3">
                                         <div class="fw-bold">Commenter Name</div>
-                                        If you're going to lead a space frontier, it has to be government; it'll never be private enterprise. Because the space frontier is dangerous, and it's expensive, and it has unquantified risks.
+                                        <?php 
+                                        
+                                        $blog_post_comment = new blog_post_comment();
+                                        $allComments = $blog_post_comment->findAll();
+                                        
+                                        foreach($allComments as $showComments){
+                                            echo $showComments['comment'];
+                                        }
+                                        ?>
                                         <!-- Child comment 1-->
                                         <div class="d-flex mt-4">
                                             <div class="flex-shrink-0"><img class="rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." /></div>
@@ -98,24 +114,12 @@ require_once 'models/autoloader.php';
                                                 And under those conditions, you cannot establish a capital-market evaluation of that enterprise. You can't get investors.
                                             </div>
                                         </div>
+                                        
                                         <!-- Child comment 2-->
-                                        <div class="d-flex mt-4">
-                                            <div class="flex-shrink-0"><img class="rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." /></div>
-                                            <div class="ms-3">
-                                                <div class="fw-bold">Commenter Name</div>
-                                                When you put money directly to a problem, it makes a good headline.
-                                            </div>
-                                        </div>
                                     </div>
                                 </div>
                                 <!-- Single comment-->
-                                <div class="d-flex">
-                                    <div class="flex-shrink-0"><img class="rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." /></div>
-                                    <div class="ms-3">
-                                        <div class="fw-bold">Commenter Name</div>
-                                        When I look at the universe and all the ways the universe wants to kill us, I find it hard to reconcile that with statements of beneficence.
-                                    </div>
-                                </div>
+                                
                             </div>
                         </div>
                     </section>

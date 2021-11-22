@@ -32,14 +32,16 @@
             return $row;
 
         }
-        function insert($blogpost_result){
+        function insert($data){
           
-            foreach($blogpost_result as $blogpost_key => $blogpost_value){
-                $dataColumnKeys[] = $blogpost_key;
-                $dataColumnValues[] = $blogpost_value;
+            foreach($data as $key => $value){
+                $dataColumnKeys[] = $key;
+                $dataColumnValues[] = $value;
             }
             $mysql = "INSERT INTO $this->tableName (" . implode(',', $dataColumnKeys) . ") VALUES ('" . implode("','", $dataColumnValues) . "')";
             $this->conn->query($mysql);
+            
+            return $this->conn->insert_id;
 
         }
         function update(){

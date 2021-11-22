@@ -14,8 +14,8 @@ require_once 'models/autoloader.php';
         <!-- Favicon-->
         <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
         <!-- Core theme CSS (includes Bootstrap)-->
-        <link href="css/font-awesome.min.css" rel="stylesheet" />
-        <link href="css/styles.css" rel="stylesheet" />
+        <link href="assets/css/font-awesome.min.css" rel="stylesheet" />
+        <link href="assets/css/styles.css" rel="stylesheet" />
     </head>
     <body>
         <!-- Responsive navbar-->
@@ -53,7 +53,6 @@ require_once 'models/autoloader.php';
                     <?php 
                         $blogpost = new blogpost();
                         $blogpost_result = $blogpost->findAll();
-                        
                     ?>
                     <?php foreach($blogpost_result as $blogpost_data){?>
                         <div class="card mb-4">

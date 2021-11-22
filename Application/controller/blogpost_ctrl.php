@@ -14,19 +14,17 @@ if (isset($_POST['submit'])) {
     $uploadOk = 1;
     $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
     
-    if(isset($_POST["submit"])) {
-        $check = getimagesize($_FILES["image"]["tmp_name"]);
-        if($check !== false) {
-          echo "File is an image - " . $check["mime"] . ".";
-          $uploadOk = 1;
-        } else {
-          echo "File is not an image.";
-          $uploadOk = 0;
-        }
-        if ($_FILES["image"]["size"] > 500000) {
-            echo "Sorry, your file is too large.";
-            $uploadOk = 0;
-          }
+    $check = getimagesize($_FILES["image"]["tmp_name"]);
+    if($check !== false) {
+      echo "File is an image - " . $check["mime"] . ".";
+      $uploadOk = 1;
+    } else {
+      echo "File is not an image.";
+      $uploadOk = 0;
+    }
+    if ($_FILES["image"]["size"] > 500000) {
+        echo "Sorry, your file is too large.";
+        $uploadOk = 0;
       }
       if (file_exists($target_file)) {
         echo "Sorry, file already exists.";
@@ -44,7 +42,7 @@ if (isset($_POST['submit'])) {
             } else {
               echo "Sorry, there was an error uploading your file.";
             }
-          }                               
+    }                       
     $insertToBlogpost = array(
         'title' => htmlentities($title),
         'description' => htmlentities($description),
@@ -52,8 +50,21 @@ if (isset($_POST['submit'])) {
         'img_link' => $_FILES['image']['name'],
         'created_by' => 1
 
-    ); 
+    );
+  $categType = $_POST['category_checkbox']; 
                                     
-  $blogpost->insert($insertToBlogpost);
-  $blogpost_categories->insert($insertToBlogpost);
+  $returnBlogpostId = $blogpost->insert($insertToBlogpost);
+  $blogpostCat = new blogpost_categories();
+  $blogpostCat->insertCatIds($returnBlogpostId ,$categType);
+  
 }
+
+
+ if(isset($_POST['postSubmit'])){
+   $comments = $_POST['comments'];
+ }
+ $insertToComments = array(
+   'comment'=>$comments??""
+ );
+ $blog_post_comment = new blog_post_comment();
+ $blog_post_comment->insert($insertToComments);
