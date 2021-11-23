@@ -70,9 +70,14 @@ if (isset($_POST['submit'])) {
   $blog_post_comment->insert($insertToComments);
   
  }
-//////////////for displaying category types
-
-
+//////////////displaying selected category
+if(isset($_GET['value'])){
+                            
+  $blogpost_result = $blogpost->findByCategoryName($_GET['value']);
+}else{
+  
+  $blogpost_result = $blogpost->findAll();
+}
 
  /////////////////for comments
  $blog_post_comment = new blog_post_comment();
@@ -81,4 +86,8 @@ if (isset($_POST['submit'])) {
      );
 
  $result = $blog_post_comment->findById($findCommentsByBlogId);
+
+ ///////////////////////////////////displaying category types per blogpost
+ 
+
  

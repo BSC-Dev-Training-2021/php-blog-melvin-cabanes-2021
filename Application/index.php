@@ -52,16 +52,22 @@ require_once 'models/autoloader.php';
                    
                     <?php
                         $blogpost = new blogpost();
-                        $blogpost_result = $blogpost->findAll();
+                        include_once 'controller/blogpost_ctrl.php';
                     ?>
-                    <?php foreach($blogpost_result as $blogpost_data){?>
+                    <?php foreach($blogpost_result as $blogpost_data){;?>
                         <div class="card mb-4">
                             <a href="#!"><img class="card-img-top" src= <?php echo 'uploads/'.$blogpost_data['img_link'];?> alt="..." /></a>
                             <div class="card-body">
                                 <div class="small text-muted"><?php echo date("jS F, Y", strtotime($blogpost_data['created_updated']));?></div>
                                 <h2 class="card-title"><?php echo $blogpost_data['title']; ?></h2>
                                 <p class="card-text"><?php echo $blogpost_data['description']; ?></p>
-                                <a class="btn btn-primary" name = 'btn' href="article.php?id=<?php echo $blogpost_data['id'];?>">Read more →</a>
+                                <a class="btn btn-primary" name = 'btn' href="article.php?id=
+                                <?php 
+                                    if(isset($_GET['value'])){
+                                    echo $blogpost_data['blogpost_id'];
+                                    }else{
+                                        echo $blogpost_data['id'];
+                                }?>">Read more →</a>
                             </div>
                         </div>
                     <?php } ?>
@@ -94,25 +100,22 @@ require_once 'models/autoloader.php';
                         </div>
                     </div>
                     <!-- Categories widget-->
+                    <?php 
+                    
+                    $category_types = new category_types();
+                    $getCat_names = $category_types->findAll();
+                    ?>
                     <div class="card mb-4">
                         <div class="card-header">Categories</div>
                         <div class="card-body">
                             <div class="row">
-                                <div class="col-sm-6">
-                                    <ul class="list-unstyled mb-0">
-                                        <li><a href="index.php?value=webdesign">Web Design</a></li>
-                                        <li><a href="index.php?value=html">HTML</a></li>
-                                        <li><a href="index.php?value=freebies">Freebies</a></li>
-                                    </ul>
-                                </div>
-                                <div class="col-sm-6">
-                                    <ul class="list-unstyled mb-0">
-                                        <li><a href="index.php?value=javascript">JavaScript</a></li>
-                                        <li><a href="index.php?value=css">CSS</a></li>
-                                        <li><a href="index.php?value=tutorials">Tutorials</a></li>
-                                    </ul>
-                                </div>
+                                <?php foreach($getCat_names as $value){?>
+                                    <div class="col-sm-6">
+                                        <ul class="list-unstyled mb-0">
+                                            <li><a href="index.php?value=<?php echo $value['name'];?>"><?php echo $value['name'];?></a></li>
+                                        </ul>
                             </div>
+                            <?php } ?>
                         </div>
                     </div>
                     <!-- Side widget-->

@@ -42,6 +42,7 @@ require_once 'models/autoloader.php';
 
                     <?php 
                     $blogpost = new blogpost();
+
                     $id = $_GET['id'];
                     $dateTime = $_POST['created_updated'] = date("F j, Y, g:i a"); 
                     $blogpost_result = $blogpost->findById($id);
@@ -57,21 +58,18 @@ require_once 'models/autoloader.php';
                             <div class="text-muted fst-italic mb-2">Posted on <?php echo date("jS F, Y", strtotime($blogpost_result['created_updated']));?></div>
                             <!-- Post categories-->
                         <?php
-                            $id = $_GET['id'];
-                            $IdArrays = array(
-                                'blogpost_id' =>$id
-                            );
-                            $blogpost_categories = new blogpost_categories();
-                            $getIDs = $blogpost_categories->findById($IdArrays);
                             
-                            $category_types = new category_types();
-                            $resultArr = [];
-                            
-                            foreach ($getIDs as $value) {
-                                $resultArr[] = $category_types->findById($value['category_id']);
-                            }
-                            
-                        //get the Id of category_id from blogpost_categories
+                        $IdArrays = array( 'blogpost_id' =>$id);
+
+                        $blogpost_categories = new blogpost_categories();
+                        $getIDs = $blogpost_categories->findById($IdArrays);
+
+                        $category_types = new category_types();
+                        $resultArr = []; //must have; will display an error if there is no categories selected to be displayed:
+                        
+                        foreach ($getIDs as $value) {
+                            $resultArr[] = $category_types->findById($value['category_id']);
+                        }
                         foreach($resultArr as $value){
                         ?>
                         <a class="badge bg-secondary text-decoration-none link-light" href="#!"><?php echo $value['name']?></a>
@@ -79,7 +77,9 @@ require_once 'models/autoloader.php';
 
                         </header>
                         <!-- Preview image figure-->
-                        <figure class="mb-4"><img class="img-fluid rounded" src= <?php echo 'uploads/'.$blogpost_result['img_link'];?> alt="..." /></a></figure>
+                        <figure class="mb-4">
+                            <img class="img-fluid rounded" src= <?php echo 'uploads/'.$blogpost_result['img_link'];?> alt="..." /></a>
+                        </figure>
                         <!-- Post content-->
                         
                         <section class="mb-5">
