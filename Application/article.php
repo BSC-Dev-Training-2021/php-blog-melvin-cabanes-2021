@@ -14,8 +14,8 @@ require_once 'models/autoloader.php';
         <!-- Favicon-->
         <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
         <!-- Core theme CSS (includes Bootstrap)-->
-        <link href="assets/css/font-awesome.min.css" rel="stylesheet" />
-        <link href="assets/css/styles.css" rel="stylesheet" />
+        <link href="../assets/css/font-awesome.min.css" rel="stylesheet" />
+        <link href="../assets/css/styles.css" rel="stylesheet" />
     </head>
     <body>
         <!-- Responsive navbar-->
@@ -42,9 +42,10 @@ require_once 'models/autoloader.php';
 
                     <?php 
                     $blogpost = new blogpost();
-                    $id = $_GET['id']??"";
+                    $id = $_GET['id'];
                     $dateTime = $_POST['created_updated'] = date("F j, Y, g:i a"); 
                     $blogpost_result = $blogpost->findById($id);
+                    
                     ?>
                     <article>
                         <!-- Post header-->
@@ -55,10 +56,26 @@ require_once 'models/autoloader.php';
                             <!-- Post meta content-->
                             <div class="text-muted fst-italic mb-2">Posted on <?php echo date("jS F, Y", strtotime($blogpost_result['created_updated']));?></div>
                             <!-- Post categories-->
-
+                        <?php
+                            $id = $_GET['id'];
+                            $IdArrays = array(
+                                'blogpost_id' =>$id
+                            );
+                            $blogpost_categories = new blogpost_categories();
+                            $getIDs = $blogpost_categories->findById($IdArrays);
                             
-                            <a class="badge bg-secondary text-decoration-none link-light" href="#!">Freebies</a>
+                            $category_types = new category_types();
+                            $resultArr = [];
                             
+                            foreach ($getIDs as $value) {
+                                $resultArr[] = $category_types->findById($value['category_id']);
+                            }
+                            
+                        //get the Id of category_id from blogpost_categories
+                        foreach($resultArr as $value){
+                        ?>
+                        <a class="badge bg-secondary text-decoration-none link-light" href="#!"><?php echo $value['name']?></a>
+                        <?php } ?>
 
                         </header>
                         <!-- Preview image figure-->
@@ -79,9 +96,8 @@ require_once 'models/autoloader.php';
 
                                 <!-- Comment form-->
 
-                                <?php $blog_post_comment = new blog_post_comment();
+                                <?php 
                                     include_once 'controller/blogpost_ctrl.php';
-                                
                                 ?>
                                 <form class="mb-4" action = "" method = "POST">
                                     <div>
@@ -94,27 +110,21 @@ require_once 'models/autoloader.php';
                                 <!-- Comment with nested comments-->
                                 <div class="d-flex mb-4">
                                     <!-- Parent comment-->
-                                    <div class="flex-shrink-0"><img class="rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." /></div>
+                                    
                                     <div class="ms-3">
-                                        <div class="fw-bold">Commenter Name</div>
-                                        <?php 
-                                        
-                                        $blog_post_comment = new blog_post_comment();
-                                        $allComments = $blog_post_comment->findAll();
-                                        
-                                        foreach($allComments as $showComments){
-                                            echo $showComments['comment'];
-                                        }
-                                        ?>
-                                        <!-- Child comment 1-->
-                                        <div class="d-flex mt-4">
+                                    
+                                        <?php
+                                        include_once 'controller/blogpost_ctrl.php';
+                                        foreach($result as $values){?>
+                                            
+                                        <div class="d-flex">
                                             <div class="flex-shrink-0"><img class="rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." /></div>
                                             <div class="ms-3">
-                                                <div class="fw-bold">Commenter Name</div>
-                                                And under those conditions, you cannot establish a capital-market evaluation of that enterprise. You can't get investors.
+                                                <div class="fw-bold">Melvin Cabanes</div>
+                                                <?php echo $values['comment']?>
                                             </div>
                                         </div>
-                                        
+                                       <?php } ?>
                                         <!-- Child comment 2-->
                                     </div>
                                 </div>

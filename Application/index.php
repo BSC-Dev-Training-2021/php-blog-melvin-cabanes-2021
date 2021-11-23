@@ -14,8 +14,8 @@ require_once 'models/autoloader.php';
         <!-- Favicon-->
         <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
         <!-- Core theme CSS (includes Bootstrap)-->
-        <link href="assets/css/font-awesome.min.css" rel="stylesheet" />
-        <link href="assets/css/styles.css" rel="stylesheet" />
+        <link href="../assets/css/font-awesome.min.css" rel="stylesheet" />
+        <link href="../assets/css/styles.css" rel="stylesheet" />
     </head>
     <body>
         <!-- Responsive navbar-->
@@ -50,7 +50,7 @@ require_once 'models/autoloader.php';
                 <div class="col-lg-8">
                     <!-- Featured blog post-->
                    
-                    <?php 
+                    <?php
                         $blogpost = new blogpost();
                         $blogpost_result = $blogpost->findAll();
                     ?>
@@ -100,16 +100,16 @@ require_once 'models/autoloader.php';
                             <div class="row">
                                 <div class="col-sm-6">
                                     <ul class="list-unstyled mb-0">
-                                        <li><a href="#!">Web Design</a></li>
-                                        <li><a href="#!">HTML</a></li>
-                                        <li><a href="#!">Freebies</a></li>
+                                        <li><a href="index.php?value=webdesign">Web Design</a></li>
+                                        <li><a href="index.php?value=html">HTML</a></li>
+                                        <li><a href="index.php?value=freebies">Freebies</a></li>
                                     </ul>
                                 </div>
                                 <div class="col-sm-6">
                                     <ul class="list-unstyled mb-0">
-                                        <li><a href="#!">JavaScript</a></li>
-                                        <li><a href="#!">CSS</a></li>
-                                        <li><a href="#!">Tutorials</a></li>
+                                        <li><a href="index.php?value=javascript">JavaScript</a></li>
+                                        <li><a href="index.php?value=css">CSS</a></li>
+                                        <li><a href="index.php?value=tutorials">Tutorials</a></li>
                                     </ul>
                                 </div>
                             </div>

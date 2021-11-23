@@ -56,15 +56,29 @@ if (isset($_POST['submit'])) {
   $returnBlogpostId = $blogpost->insert($insertToBlogpost);
   $blogpostCat = new blogpost_categories();
   $blogpostCat->insertCatIds($returnBlogpostId ,$categType);
-  
 }
-
-
- if(isset($_POST['postSubmit'])){
-   $comments = $_POST['comments'];
+  if(isset($_POST['postSubmit'])){
+   $comments = htmlentities($_POST['comments'], ENT_QUOTES);
+   $blogpostIds = $_GET['id'];
+  
+  $insertToComments = array(
+    'comment'=>$comments,
+    'blog_post_id'=>$blogpostIds
+  
+  );
+  $blog_post_comment = new blog_post_comment();
+  $blog_post_comment->insert($insertToComments);
+  
  }
- $insertToComments = array(
-   'comment'=>$comments??""
- );
+//////////////for displaying category types
+
+
+
+ /////////////////for comments
  $blog_post_comment = new blog_post_comment();
- $blog_post_comment->insert($insertToComments);
+ $findCommentsByBlogId = array(
+     'blog_post_id' => $_GET['id']??""
+     );
+
+ $result = $blog_post_comment->findById($findCommentsByBlogId);
+ 

@@ -26,11 +26,20 @@
         }
 
         function findById($id){
-            $sql = "SELECT * FROM $this->tableName WHERE id = $id";
-            $result = $this->conn->query($sql);
+            if(is_array($id)){
+
+                foreach($id as $key => $value){
+                    $dataColumnKeys = $key;
+                    $dataColumnValues = $value;
+                }
+                $result = $this->conn->query("SELECT * FROM $this->tableName WHERE $dataColumnKeys = $dataColumnValues");
+                return $result;
+
+            } else {
+            $result = $this->conn->query("SELECT * FROM $this->tableName WHERE id = $id");
             $row = $result->fetch_assoc();
             return $row;
-
+            }
         }
         function insert($data){
           
@@ -43,6 +52,14 @@
             
             return $this->conn->insert_id;
 
+        }
+
+        function findByCategoryName($categoryName){
+            $result = $this->conn->query("SELECT category_types.name 
+            FROM category_types INNER JOIN blogpost_categories ON category_types.id = blogpost_categories.category_id INNER JOIN
+            blog_post ON blog_post.id WHERE category_types.name = $categoryName");
+
+            return $result;
         }
         function update(){
               /*
