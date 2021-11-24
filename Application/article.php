@@ -1,39 +1,7 @@
-<?php 
-require_once 'models/autoloader.php';
+<?php
+    require_once 'models/autoloader.php';
+    include_once 'controller/navigation.ctrl.php';
 ?>
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-        <meta name="description" content="" />
-        <meta name="author" content="" />
-        <title>Blog Post - Start Bootstrap Template</title>
-        <script src="js/jquery-3.6.0.min.js"></script>
-        <script src="js/app.js"></script>
-        <!-- Favicon-->
-        <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
-        <!-- Core theme CSS (includes Bootstrap)-->
-        <link href="../assets/css/font-awesome.min.css" rel="stylesheet" />
-        <link href="../assets/css/styles.css" rel="stylesheet" />
-    </head>
-    <body>
-        <!-- Responsive navbar-->
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-            <div class="container">
-                <a class="navbar-brand" href="#!">My Blog</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                        <li class="nav-item"><a class="nav-link active" href="index.php">Home</a></li>
-                        <li class="nav-item"><a class="nav-link" href="about.php">About</a></li>
-                        <li class="nav-item"><a class="nav-link" href="contact.php">Contact</a></li>
-                        <li class="nav-item"><a class="nav-link" href="post.php?">Post</a></li>
-                        <li class="nav-item"><a class="nav-link" href="messages.php"><i class="fa fa-envelope-o"></i></a></li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
         <!-- Page content-->
         <div class="container mt-5">
             <div class="row">
@@ -42,8 +10,8 @@ require_once 'models/autoloader.php';
 
                     <?php 
                     $blogpost = new blogpost();
-
                     $id = $_GET['id'];
+                    
                     $dateTime = $_POST['created_updated'] = date("F j, Y, g:i a"); 
                     $blogpost_result = $blogpost->findById($id);
                     
@@ -58,18 +26,21 @@ require_once 'models/autoloader.php';
                             <div class="text-muted fst-italic mb-2">Posted on <?php echo date("jS F, Y", strtotime($blogpost_result['created_updated']));?></div>
                             <!-- Post categories-->
                         <?php
+                            $id = $_GET['id'];
+                            $IdArrays = array(
+                                'blogpost_id' =>$id
+                            );
+                            $blogpost_categories = new blogpost_categories();
+                            $getIDs = $blogpost_categories->findById($IdArrays);
                             
-                        $IdArrays = array( 'blogpost_id' =>$id);
-
-                        $blogpost_categories = new blogpost_categories();
-                        $getIDs = $blogpost_categories->findById($IdArrays);
-
-                        $category_types = new category_types();
-                        $resultArr = []; //must have; will display an error if there is no categories selected to be displayed:
-                        
-                        foreach ($getIDs as $value) {
-                            $resultArr[] = $category_types->findById($value['category_id']);
-                        }
+                            $category_types = new category_types();
+                            $resultArr = [];
+                            
+                            foreach ($getIDs as $value) {
+                                $resultArr[] = $category_types->findById($value['category_id']);
+                            }
+                            
+                        //get the Id of category_id from blogpost_categories
                         foreach($resultArr as $value){
                         ?>
                         <a class="badge bg-secondary text-decoration-none link-light" href="#!"><?php echo $value['name']?></a>
@@ -77,9 +48,7 @@ require_once 'models/autoloader.php';
 
                         </header>
                         <!-- Preview image figure-->
-                        <figure class="mb-4">
-                            <img class="img-fluid rounded" src= <?php echo 'uploads/'.$blogpost_result['img_link'];?> alt="..." /></a>
-                        </figure>
+                        <figure class="mb-4"><img class="img-fluid rounded" src= <?php echo 'uploads/'.$blogpost_result['img_link'];?> alt="..." /></a></figure>
                         <!-- Post content-->
                         
                         <section class="mb-5">
@@ -135,45 +104,7 @@ require_once 'models/autoloader.php';
                     </section>
                 </div>
                 <!-- Side widgets-->
-                <div class="col-lg-4">
-                    <!-- Search widget-->
-                    <div class="card mb-4">
-                        <div class="card-header">Search</div>
-                        <div class="card-body">
-                            <div class="input-group">
-                                <input class="form-control" type="text" placeholder="Enter search term..." aria-label="Enter search term..." aria-describedby="button-search" />
-                                <button class="btn btn-primary" id="button-search" type="button">Go!</button>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Categories widget-->
-                    <div class="card mb-4">
-                        <div class="card-header">Categories</div>
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-sm-6">
-                                    <ul class="list-unstyled mb-0">
-                                        <li><a href="#!">Web Design</a></li>
-                                        <li><a href="#!">HTML</a></li>
-                                        <li><a href="#!">Freebies</a></li>
-                                    </ul>
-                                </div>
-                                <div class="col-sm-6">
-                                    <ul class="list-unstyled mb-0">
-                                        <li><a href="#!">JavaScript</a></li>
-                                        <li><a href="#!">CSS</a></li>
-                                        <li><a href="#!">Tutorials</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Side widget-->
-                    <div class="card mb-4">
-                        <div class="card-header">Side Widget</div>
-                        <div class="card-body">You can put anything you want inside of these side widgets. They are easy to use, and feature the Bootstrap 5 card component!</div>
-                    </div>
-                </div>
+                <?php include_once 'controller/widget.ctrl.php';?>
             </div>
         </div>
         <!-- Footer-->

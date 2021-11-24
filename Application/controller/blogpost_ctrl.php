@@ -72,7 +72,6 @@ if (isset($_POST['submit'])) {
  }
 //////////////displaying selected category
 if(isset($_GET['value'])){
-                            
   $blogpost_result = $blogpost->findByCategoryName($_GET['value']);
 }else{
   
@@ -87,7 +86,6 @@ if(isset($_GET['value'])){
 
  $result = $blog_post_comment->findById($findCommentsByBlogId);
 
- ///////////////////////////////////displaying category types per blogpost
- 
+ ///////////////////////////////////to get the value of the blogpost_id wh
 
  

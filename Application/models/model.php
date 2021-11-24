@@ -54,7 +54,7 @@
 
         }
         
-        function findByCategoryName($categoryName){     
+        function findByCategoryName($categoryName){
             $result = $this->conn->query("SELECT * FROM blog_post INNER JOIN blogpost_categories
                                         ON blogpost_categories.blogpost_id = blog_post.id
                                         INNER JOIN category_types ON category_types.id = blogpost_categories.category_id
