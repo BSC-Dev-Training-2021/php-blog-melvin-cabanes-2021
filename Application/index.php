@@ -2,7 +2,6 @@
     require_once 'models/autoloader.php';
     include_once 'controller/navigation.ctrl.php';
 ?>
-
         <!-- Page header with logo and tagline-->
         <header class="py-5 bg-light border-bottom mb-4">
             <div class="container">
@@ -18,7 +17,6 @@
                 <!-- Blog entries-->
                 <div class="col-lg-8">
                     <!-- Featured blog post-->
-                   
                     <?php
                         $blogpost = new blogpost();
                         include_once 'controller/blogpost_ctrl.php';

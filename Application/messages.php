@@ -32,7 +32,6 @@
                 </div>
                 <!-- Side widgets-->
                 <?php include_once 'controller/widget.ctrl.php';?>
-
             </div>
         </div>
         <!-- Footer-->

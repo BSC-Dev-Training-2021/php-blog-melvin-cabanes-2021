@@ -12,7 +12,7 @@
             // connection of database
             $servername = "localhost";
             $username = "root";
-            $password = "";
+            $password = "Bensrkr";
             $dbname = "blog";
             $this->conn = new mysqli($servername, $username, $password , $dbname);
 
@@ -61,12 +61,13 @@
                                         where category_types.name = '$categoryName'");
             return $result;
         }
-        function update(){
-              /*
-                put your generic UPDATE query here
-            */
+        function update($id){
+                $dataColumnKeys[] = '';
+                $dataColumnValues[] = '';
+            $mysql = $this->conn->query("UPDATE $this->tableName SET WHERE $dataColumnKeys = $dataColumnValues");
         }
-        function delete(){
-
+        function delete($id){
+            $result = $this->conn->query("DELETE FROM $this->tableName WHERE id = $id");
+            return $result;
         }
     }

@@ -7,39 +7,15 @@
             <div class="row">
                 <div class="col-lg-8">
                     <!-- Post content-->
-
-                    <?php 
-                    $blogpost = new blogpost();
-                    $id = $_GET['id'];
-                    
-                    $dateTime = $_POST['created_updated'] = date("F j, Y, g:i a"); 
-                    $blogpost_result = $blogpost->findById($id);
-                    
-                    ?>
                     <article>
                         <!-- Post header-->
                         <header class="mb-4">
                             <!-- Post title-->
-                           
                             <h1 class="fw-bolder mb-1"><?php echo $blogpost_result['title'];?></h1>
                             <!-- Post meta content-->
                             <div class="text-muted fst-italic mb-2">Posted on <?php echo date("jS F, Y", strtotime($blogpost_result['created_updated']));?></div>
                             <!-- Post categories-->
                         <?php
-                            $id = $_GET['id'];
-                            $IdArrays = array(
-                                'blogpost_id' =>$id
-                            );
-                            $blogpost_categories = new blogpost_categories();
-                            $getIDs = $blogpost_categories->findById($IdArrays);
-                            
-                            $category_types = new category_types();
-                            $resultArr = [];
-                            
-                            foreach ($getIDs as $value) {
-                                $resultArr[] = $category_types->findById($value['category_id']);
-                            }
-                            
                         //get the Id of category_id from blogpost_categories
                         foreach($resultArr as $value){
                         ?>
@@ -61,10 +37,7 @@
                     <section class="mb-5">
                         <div class="card bg-light">
                             <div class="card-body">
-
-
                                 <!-- Comment form-->
-
                                 <?php 
                                     include_once 'controller/blogpost_ctrl.php';
                                 ?>
@@ -81,7 +54,6 @@
                                     <!-- Parent comment-->
                                     
                                     <div class="ms-3">
-                                    
                                         <?php
                                         include_once 'controller/blogpost_ctrl.php';
                                         foreach($result as $values){?>
@@ -98,7 +70,6 @@
                                     </div>
                                 </div>
                                 <!-- Single comment-->
-                                
                             </div>
                         </div>
                     </section>
